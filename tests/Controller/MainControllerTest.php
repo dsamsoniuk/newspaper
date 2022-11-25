@@ -11,7 +11,8 @@ class MainControllerTest extends WebTestCase
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
 
-        $this->assertResponseIsSuccessful();
+        // $this->assertResponseIsSuccessful();
+        $this->assertResponseStatusCodeSame(200);
         // $this->assertSelectorTextContains('h1', 'Hello World');
     }
 }
