@@ -8,7 +8,8 @@ class ArticleTest extends TestCase
 {
     public function testSomething(): void
     {
-        // $article = new Articl
+        // $article = new Article();
+        // $article()
         $this->assertTrue(true);
     }
 }
