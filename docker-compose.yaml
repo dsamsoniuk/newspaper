@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+    database:
+        image: 'mysql:8.0'
+        environment:
+            MYSQL_ROOT_PASSWORD: damian
+            MYSQL_PASSWORD: damian
+            MYSQL_USER: damian
+            MYSQL_DATABASE: newspaper
+        ports:
+            # To allow the host machine to access the ports below, modify the lines below.
+            # For example, to allow the host to connect to port 3306 on the container, you would change
+            # "3306" to "3306:3306". Where the first port is exposed to the host and the second is the container port.
+            # See https://docs.docker.com/compose/compose-file/compose-file-v3/#ports for more information.
+            - '8989:3306'
+    # mysqldb:
+    #     image: mysql:latest
+    #     restart: always
+    #     # env_file:
+    #     #     - ".env"
+    #     # mysql -h localhost -P 8989 --protocol=tcp -u user_name -p
+    #     environment:
+    #         - MYSQL_DATABASE=yii
+    #         - MYSQL_ROOT_PASSWORD=yii
+    #         - MYSQL_USER=yii
+    #         - MYSQL_PASSWORD=yii
+    #     ports:
+    #         - "8989:3306"
+    #     volumes:
+    #         - "./database:/docker-entrypoint-initdb.d"

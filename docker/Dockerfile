@@ -15,10 +15,12 @@ RUN  apt update && apt-get install -y \
     curl \
     zip \
     unzip
+    
+RUN docker-php-ext-install mysqli
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer self-update 1.10.10
+RUN composer self-update 2.3.10
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

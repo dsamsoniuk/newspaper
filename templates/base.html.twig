@@ -14,7 +14,15 @@
         {% endblock %}
     </head>
     <body>
-    base...
+        
+    <ul>
+        <li><a href="{{path('app_main')}}">index</a></li>
+        <li><a href="{{path('app_login')}}">login</a></li>
+        <li><a href="{{path('app_register')}}">register</a></li>
+    </ul>
+    <br>
+
+
         {% block body %}{% endblock %}
     </body>
 </html>
