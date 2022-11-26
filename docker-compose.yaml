@@ -1,12 +1,14 @@
 version: '3.7'
 services:
-    database:
+    mysql:
         image: 'mysql:8.0'
         environment:
             MYSQL_ROOT_PASSWORD: damian
             MYSQL_PASSWORD: damian
             MYSQL_USER: damian
             MYSQL_DATABASE: newspaper
+        volumes:
+        - "./database:/docker-entrypoint-initdb.d"
         ports:
             # To allow the host machine to access the ports below, modify the lines below.
             # For example, to allow the host to connect to port 3306 on the container, you would change
