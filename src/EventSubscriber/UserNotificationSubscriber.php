@@ -8,13 +8,14 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class UserNotificationSubscriber implements EventSubscriberInterface
 {
-    public static function getSubscribedEvents(){
+    public static function getSubscribedEvents() : array{
         return [
             UserCreatedEvent::class => 'onUserAdded'
         ];
     }
     public function onUserAdded(UserCreatedEvent $event){
         $user = $event->getUser();
-        $a = 1;
+
+        // Send email for user
     }
 }
