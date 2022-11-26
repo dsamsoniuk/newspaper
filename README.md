@@ -18,3 +18,6 @@ cd public/
 php -S localhost:8000
 ```
 
+
+* tabele article, article_image, category
+* api dodaj artykul (command)

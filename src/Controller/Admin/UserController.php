@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Admin;
 
 use App\Entity\User;
 use App\Event\UserCreatedEvent;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+// #[IsGranted('ROLE_ADMIN', message: 'You dont have permission!')]
 #[Route('/user')]
 class UserController extends AbstractController
 {
@@ -36,7 +37,7 @@ class UserController extends AbstractController
             $userRepository->save($user, true);
             $event = new UserCreatedEvent($user);
             $dispatcher->dispatch($event);
-            
+
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
