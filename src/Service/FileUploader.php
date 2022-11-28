@@ -8,35 +8,37 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader
-{    
-    private $targetDirectory;
+{
+    const IMAGE_DIR = 'article_image/';
+    
+    private $publicDirectory;
     private $slugger;
     private $logger;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger, LoggerInterface $logger)
+    public function __construct($publicDirectory, SluggerInterface $slugger, LoggerInterface $logger)
     {
-        $this->targetDirectory = $targetDirectory;
+        $this->publicDirectory = $publicDirectory;
         $this->slugger = $slugger;
         $this->logger = $logger;
     }
 
-    public function upload(UploadedFile $file): ?string
+    public function upload(UploadedFile $file, $dir = '/'): ?string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         try {
-            $file->move($this->getTargetDirectory(), $fileName);
+            $file->move($this->getPublicDirectory().$dir, $fileName);
         } catch (FileException $e) {
-            $this->logger->alert("message");
+            $this->logger->alert($e->getMessage());
             return null;
         }
 
         return $fileName;
     }
-    public function getTargetDirectory()
+    public function getPublicDirectory()
     {
-        return $this->targetDirectory;
+        return $this->publicDirectory;
     }
 }

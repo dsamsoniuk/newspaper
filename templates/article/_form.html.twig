@@ -16,7 +16,7 @@
 
 <ul>
   {% for image in article.articleImages %}
-    <li>{{image.path}}</li>
+    <li><img src="{{image.getRelativePath}}" width="100" /></li>
   {% endfor %}
 </ul>
 

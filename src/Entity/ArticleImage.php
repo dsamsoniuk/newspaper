@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ArticleImageRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -63,5 +64,9 @@ class ArticleImage
         $this->article = $article;
 
         return $this;
+    }
+
+    public function getRelativePath() : string {
+        return '/'.FileUploader::IMAGE_DIR.$this->path;
     }
 }

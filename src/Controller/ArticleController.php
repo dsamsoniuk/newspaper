@@ -60,19 +60,19 @@ class ArticleController extends AbstractController
 
     #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
     public function edit(
-        Request $request, 
-        Article $article, 
-        ArticleRepository $articleRepository, 
-        FileUploader $fileUploader
-        ): Response
-    {
+            Request $request, 
+            Article $article, 
+            ArticleRepository $articleRepository, 
+            FileUploader $fileUploader
+        ): Response {
+            
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             foreach ($form->get('images') as $uploadFile) {
-                $fileName = $fileUploader->upload($uploadFile->get('file')->getData());
+                $fileName = $fileUploader->upload($uploadFile->get('file')->getData(), $fileUploader::IMAGE_DIR);
 
                 if ($fileName) {
                     $article->addArticleImage(
