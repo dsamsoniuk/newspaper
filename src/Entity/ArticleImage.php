@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleImageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ArticleImageRepository::class)]
 class ArticleImage

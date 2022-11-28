@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\ArticleImage;
 use App\Form\ArticleType;
 use App\Repository\ArticleRepository;
+use App\Service\FileUploader;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,8 +26,15 @@ class ArticleController extends AbstractController
 
     #[Route('/new', name: 'app_article_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ArticleRepository $articleRepository): Response
-    {
+    {   
+
         $article = new Article();
+
+        // $image = new ArticleImage();
+        // $image->setPath('aaa');
+        // $image->setDateAdd('2020-11-11');
+        // $article->addArticleImage($image);
+
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
@@ -49,20 +59,38 @@ class ArticleController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_article_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Article $article, ArticleRepository $articleRepository): Response
+    public function edit(
+        Request $request, 
+        Article $article, 
+        ArticleRepository $articleRepository, 
+        FileUploader $fileUploader
+        ): Response
     {
         $form = $this->createForm(ArticleType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($form->get('images') as $uploadFile) {
+                $fileName = $fileUploader->upload($uploadFile->get('file')->getData());
+
+                if ($fileName) {
+                    $article->addArticleImage(
+                        (new ArticleImage)
+                            ->setPath($fileName)
+                            ->setDateAdd((new DateTime('now'))->format('Y-m-d'))
+                    );
+                }
+            }
             $articleRepository->save($article, true);
+            $this->addFlash('success', 'Article updated!');
 
             return $this->redirectToRoute('app_article_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('article/edit.html.twig', [
+        $view = $form->createView();
+        return $this->render('article/edit.html.twig', [
             'article' => $article,
-            'form' => $form,
+            'form' => $view,
         ]);
     }
 

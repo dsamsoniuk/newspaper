@@ -25,7 +25,7 @@ class Article
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date_add = null;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: ArticleImage::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: ArticleImage::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $articleImages;
 
     public function __construct()
@@ -81,6 +81,7 @@ class Article
     {
         return $this->articleImages;
     }
+
 
     public function addArticleImage(ArticleImage $articleImage): self
     {

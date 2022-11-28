@@ -1,4 +1,67 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.date_add) }}
+        <ul class="images"     
+        data-index="{{ form.images|length > 0 ? form.images|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.images.vars.prototype)|e('html_attr') }}">
+        {% for image in form.images %}
+            <li>{{ form_row(image.file) }}</li>
+        {% endfor %}
+    </ul>
+    <button type="button" class="add_item_link" data-collection-holder-class="images">Add next image</button>
+    <br>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<ul>
+  {% for image in article.articleImages %}
+    <li>{{image.path}}</li>
+  {% endfor %}
+</ul>
+
+<script>
+const addTagFormDeleteLink = (item) => {
+    const removeFormButton = document.createElement('button');
+    removeFormButton.innerText = 'Delete this tag';
+
+    item.append(removeFormButton);
+
+    removeFormButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        // remove the li for the tag form
+        item.remove();
+    });
+}
+
+const addFormToCollection = (e) => {
+  const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+    console.log(collectionHolder,collectionHolder.dataset.index)
+  const item = document.createElement('li');
+
+  item.innerHTML = collectionHolder
+    .dataset
+    .prototype
+    .replace(
+      /__name__/g,
+      collectionHolder.dataset.index
+    );
+
+  collectionHolder.appendChild(item);
+    addTagFormDeleteLink(item);
+  collectionHolder.dataset.index++;
+};
+
+document
+    .querySelectorAll('ul.tags li')
+    .forEach((tag) => {
+        addTagFormDeleteLink(tag)
+    })
+
+document
+  .querySelectorAll('.add_item_link')
+  .forEach(btn => {
+      btn.addEventListener("click", addFormToCollection)
+  });
+
+</script>
