@@ -10,6 +10,7 @@ security:
                 class: App\Entity\User
                 property: email
     firewalls:
+        http_basic: ~
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -21,7 +22,13 @@ security:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-
+            form_login:
+                # The route name that the login form submits to
+                check_path: app_login
+                # The name of the route where the login form lives
+                # When the user tries to access a protected page, they are redirected here
+                login_path: app_login
+            entry_point: form_login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -31,18 +38,13 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # - { path: ^/article, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
+    # this configuration simplifies testing URLs protected by the security mechanism
+    # See https://symfony.com/doc/current/testing/http_authentication.html
     security:
-        password_hashers:
-            # By default, password hashers are resource intensive and take time. This is
-            # important to generate secure password hashes. In tests however, secure hashes
-            # are not important, waste resources and increase test times. The following
-            # reduces the work factor to the lowest possible values.
-            Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface:
-                algorithm: auto
-                cost: 4 # Lowest possible value for bcrypt
-                time_cost: 3 # Lowest possible value for argon
-                memory_cost: 10 # Lowest possible value for argon
+        firewalls:
+            main:
+                http_basic: ~

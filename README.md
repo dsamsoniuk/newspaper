@@ -18,6 +18,7 @@ cd public/
 php -S localhost:8000
 ```
 
-
-* tabele article, article_image, category
+* message dla dodanych zdjec (kolejka)
 * api dodaj artykul (command)
+
+* stimulate

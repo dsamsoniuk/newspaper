@@ -16,7 +16,11 @@
 
 <ul>
   {% for image in article.articleImages %}
-    <li><img src="{{image.getRelativePath}}" width="100" /></li>
+    <li>
+    <img src="{{image.getRelativePath}}" width="100" />
+    {{ include('article_image/_delete_form.html.twig', {'article_image' : image})}}
+    <a href="{{path('app_article_image_delete', {id:image.id})}}">del</a>
+    </li>
   {% endfor %}
 </ul>
 

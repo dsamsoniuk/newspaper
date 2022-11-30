@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ArticleImageRepository;
 use App\Service\FileUploader;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -25,6 +26,10 @@ class ArticleImage
     #[ORM\JoinColumn(nullable: false)]
     private ?Article $article = null;
 
+    public function __construct()
+    {
+        $this->date_add = (new DateTime('now'))->format('Y-m-d H:i');
+    }
     public function getId(): ?int
     {
         return $this->id;
