@@ -16,6 +16,15 @@ docker composer up
 cd public/
 
 php -S localhost:8000
+
+# js run
+
+npm i
+
+npm run dev-server # for debug
+
+npm run watch or build # render files js
+
 ```
 
 * message dla dodanych zdjec (kolejka)

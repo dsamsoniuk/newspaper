@@ -7,23 +7,28 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
+            {{ encore_entry_link_tags('article') }}
         {% endblock %}
+
+
+    </head>
+    <body>
+        
+        <ul>
+            <li><a href="{{path('app_main')}}">index</a></li>
+            <li><a href="{{path('app_login')}}">login</a></li>
+            <li><a href="{{path('app_register')}}">register</a></li>
+            <li><a href="{{path('app_user_index')}}">users</a></li>
+        </ul>
+        <br>
+
+        {% block body %}{% endblock %}
+
+        <div id="app" data-url="aaa/aaa">in</div>
 
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-    </head>
-    <body>
-        
-    <ul>
-        <li><a href="{{path('app_main')}}">index</a></li>
-        <li><a href="{{path('app_login')}}">login</a></li>
-        <li><a href="{{path('app_register')}}">register</a></li>
-        <li><a href="{{path('app_user_index')}}">users</a></li>
-    </ul>
-    <br>
 
-
-        {% block body %}{% endblock %}
     </body>
 </html>
