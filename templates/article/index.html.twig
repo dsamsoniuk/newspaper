@@ -1,6 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Article index{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('article') }}
+{% endblock %}
+
 {% block javascripts %}
     {{ encore_entry_script_tags('article') }}
 {% endblock %}
